@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page errorPage="errorPage.jsp" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -13,6 +14,8 @@
 			
 			String imgDir;
 			String testServerIp;
+			
+			String str;
 		%>
 		<%
 			adminId=config.getInitParameter("adminId");
@@ -27,6 +30,15 @@
 		%>
 		<p>imgDir : <%=imgDir %></p>
 		<p>testServerIp : <%=testServerIp %></p>
+		
+		<%
+		application.setAttribute("connectedIp","165.111.111");
+		application.setAttribute("connectedUser","root");
+		%>
+		
+		<%
+			out.print(str.toString());
+		%>
 	
 	</body>
 </html>
