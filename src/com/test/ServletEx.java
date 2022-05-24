@@ -15,23 +15,20 @@ import javax.servlet.http.HttpServletResponse;
 //@WebServlet("/SE")
 public class ServletEx extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ServletEx() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		/*response.getWriter().append("Served at: ").append(request.getContextPath());
 		PrintWriter out = response.getWriter();
-		out.print("<p>Hello Servlet</p>");
+		out.print("<p>Hello Servlet</p>");*/
+		String adminId = getServletConfig().getInitParameter("adminId");
+		String adminPw = getServletConfig().getInitParameter("adminPw");
+		PrintWriter out = response.getWriter();
+		out.print("<p>adminId:" + adminId+ "</p>");
+		out.print("<p>adminPw:" + adminPw+ "</p>");
 	}
 
 	/**
