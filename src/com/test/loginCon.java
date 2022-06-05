@@ -29,13 +29,15 @@ public class loginCon extends HttpServlet {
 		Cookie cookie= null;
 		for(Cookie c:cookies) {
 			System.out.println(c.getName()+c.getValue());
-			if(c.getName().equals("mID")) {
+			//memberId는 다른뜻 없고 브라우저에서 가져온 쿠키값을  memberId라는 키값으로 합쳐서 다시 브라우저로 넘겨준다. 
+			//브라우저에서 넘겨주는 쿠키값에 따라 id값을 다르게 줘서 쿠키를 만들수 있음 
+			if(c.getName().equals("memberId")) {
 				cookie=c;
 			}
 		}
 		if(cookie==null) {
 			System.out.println("cookie is null");
-			cookie=new Cookie("mID",mID);
+			cookie=new Cookie("memberId",mID);
 		}
 		
 		response.addCookie(cookie);

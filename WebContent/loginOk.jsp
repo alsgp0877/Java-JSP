@@ -13,12 +13,9 @@
 			for(Cookie c : cookies){
 				out.print("name:" +c.getName()+"<br>");
 				out.print("value:"+c.getValue()+"<br>");
+				out.print("===========================");
 			}
 		%>
 
-		<p>error message : <%=msg %></p>
-
-		
-	
 	</body>
 </html>
