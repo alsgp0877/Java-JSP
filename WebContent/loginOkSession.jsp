@@ -9,13 +9,13 @@
 	</head>
 	<body>
 		<%
-			Cookie[] cookies = request.getCookies();
-			for(Cookie c : cookies){
-				out.print("name:" +c.getName()+"<br>");
-				out.print("value:"+c.getValue()+"<br>");
-				out.print("----------------------<br>");
-			}
+			session = request.getSession();
+			out.print("memberId:" + session.getAttribute("memberId"));
 		%>
+		
+		<form action="logoutConSession" method="post">
+			<input type="submit" value="logout">
+		</form>
 
 	</body>
 </html>
