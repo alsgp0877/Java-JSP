@@ -20,6 +20,10 @@ public class loginConSession extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		request.setCharacterEncoding("UTF-8");//함수자체가 char를 인코딩하겠다이기 때문에 charset 넣을필요없음
+		response.setContentType("text/html;charset=UTF-8");
+		
+		
 		PrintWriter out = response.getWriter();
 		String mID =  request.getParameter("mID");
 		String mPW =  request.getParameter("mPW");
