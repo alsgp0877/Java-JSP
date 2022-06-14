@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 import javax.servlet.ServletException;
@@ -14,8 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/modifyBook")
-public class ModifyBook extends HttpServlet {
+@WebServlet("/selectBook")
+public class SelectBook extends HttpServlet {
 
 	/**
 	 * 
@@ -26,6 +27,7 @@ public class ModifyBook extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		
+		
 		String driver="oracle.jdbc.driver.OracleDriver";
 		String url ="jdbc:oracle:thin:@localhost:1521:xe";
 		String id="system";
@@ -33,31 +35,33 @@ public class ModifyBook extends HttpServlet {
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		ResultSet res = null;
 		
 		try {
-			//JDBC실행순서  1.OraclDriver로딩
 			Class.forName(driver);//https://pjh3749.tistory.com/250 , Class가 static클래스구나..
-			//JDBC실행순서  2.Java와 Oralce 연결
 			con=DriverManager.getConnection(url,id,pw);
-			//JDBC실행순서  3.query작성
-			String sql = "UPDATE book SET book_loc = ? WHERE book_name=?";
-			//JDBC실행순서  4.query전송객체
+			//JDBC실행순서  4.query작성
+			String sql = "SELECT * FROM book";
+			//JDBC실행순서  3.query전송객체
 			pstmt=con.prepareStatement(sql);
-			pstmt.setString(1, "11-11");
-			pstmt.setString(2, "book");
 			//JDBC실행순서  5.query전송
-			int result = pstmt.executeUpdate();
+			res= pstmt.executeQuery(sql);
 			
-			if(result==1) {
-				out.print("UPDATE success!!");
+			while(res.next()) {
+				int bookId = res.getInt("book_id");
+				String bookName = res.getString("book_name");
+				String bookLoc = res.getString("book_loc");
 				
-			}else {
-				out.print("UPDATE fail!!");
+				out.print("bookId" + bookId);
+				out.print("bookName" + bookName);
+				out.print("bookLoc" + bookLoc);
+				
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
 			try {
+				if(res!=null)res.close();
 				if(pstmt!=null)pstmt.close();
 				if(con!=null)con.close();
 			}catch(Exception e2) {
