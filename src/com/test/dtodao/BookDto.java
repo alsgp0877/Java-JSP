@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 //dto : data transfer object
 //DBMS의 종류에 따라 타입이 다를수 있다. oracle의 number 타입이 java의 int와 다른것 처럼
 //DBMS에 있는 데이터를 자바로 만들어주는 중간 매개체
+//여기는 말그대로 DBMS에 있는 정보를 받아오는 곳이기 때문에 어떠한 형태로 JSON 형태로 JAVA 객체형태로든 받아올수있다.
+//DBMS는 어떻게 VO를 인식하고 연결점 처럼 사용할수 있을까?
 public class BookDto{
 	
 	int bookId;

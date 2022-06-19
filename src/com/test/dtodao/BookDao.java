@@ -9,38 +9,40 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 //DAO : data access object
 //자바에서 데이터베이스에 관한 기능만 따로 모듈화한것 때낸것
+
+
 public class BookDao{
 	
-	//------
-	//spring에서는 xml 파일에 디비정보를 설정해두고 bean에 등록해서 
-	//가져와서 사용하는 방식을 쓰는것 같다(?)
-	String driver="oracle.jdbc.driver.OracleDriver";
+	DataSource dataSource;
+	
+	//---spring에서는 DBMS 프로그램과 연결할때 필요한 정보,연결점을 XML 파일에 따로 관리하고 
+	/*String driver="oracle.jdbc.driver.OracleDriver";
 	String url ="jdbc:oracle:thin:@localhost:1521:xe";
 	String id="system";
-	String pw="1111";
-	
+	String pw="1111";*/
+		
 	public BookDao() {
 		try {
-			Class.forName(driver);
+			Context context = new InitialContext();
+			dataSource = (DataSource)context.lookup("java:comp/env/jdbc/oracle11g");
 			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	//------
+	//---
 	
-	//------
-	//그리고 여기도 spring에서? 인가 아무튼 이 문장이 짧고 간결하게 사용될수있게 하는
-	//라이브러리가 있는것 같다. 
-	//여기서도 객체 담는 부분이랑 쿼리를 또 나눠서 xml 파일로 때어넨다.
 	public ArrayList<BookDto> select(){
 		ArrayList<BookDto> list = new ArrayList<BookDto>();
 		
@@ -49,7 +51,9 @@ public class BookDao{
 		ResultSet res = null;
 		
 		try {
-			con=DriverManager.getConnection(url,id,pw);
+			/*con=DriverManager.getConnection(url,id,pw);*/
+			con=dataSource.getConnection();
+			//쿼리문도 쿼리만 작성하는 XML 파일에 따로 관리한다. 
 			String sql = "SELECT * FROM book";
 			pstmt=con.prepareStatement(sql);
 			//JDBC실행순서  5.query전송
@@ -79,5 +83,6 @@ public class BookDao{
 	}
 	
 }
+//이제 DBMS 정보 관련 XML과 쿼리만 있는 XML의 연결점 함수들이 있고 (IBatis에서 지원하나 selectList 같은거) 사용해서 쿼리를 실행하고 데이터를 받아온다. 
 
 
